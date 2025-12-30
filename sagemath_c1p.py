@@ -3,12 +3,14 @@ from collections import defaultdict
 
 def consecutive_ones_test(matrix):
     """
-    FINAL FIXED VERSION: Handle duplicate column patterns correctly.
+    Test if a binary matrix has the consecutive ones property (C1P) for its columns.
+    If it does, return an ordering of the columns that satisfies C1P.
     """
     from sage.graphs.pq_trees import reorder_sets
 
-    # if not matrix or not matrix[0]:
-    #     return True, []
+    # if there are no rows or no columns, trivially C1P, return identity ordering
+    if len(matrix) == 0 or len(matrix[0]) == 0:
+        return True, list(range(len(matrix[0]) if len(matrix) > 0 else 0))
 
     rows, cols = len(matrix), len(matrix[0])
 

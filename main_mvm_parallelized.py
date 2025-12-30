@@ -108,25 +108,44 @@ def process_instance(inst_id: int, n_runs: int, T: int, U: int, K: int,
 
     return inst_id
 
+# if __name__ == "__main__":
+#     start = time.time()
+#
+#     worker = partial(process_instance,
+#                      n_runs=N_RUNS,
+#                      T=T_MvM,
+#                      U=U,
+#                      K=K,
+#                      results_dir=results_dir,
+#                      plots_dir=plots_dir)
+#
+#     # top-level progress bar over instances
+#     with Pool(processes=5) as pool:
+#         for _ in tqdm(pool.imap_unordered(worker, range(N_INSTANCES)),
+#                       total=N_INSTANCES,
+#                       desc="Instances",
+#                       position=0,
+#                       file=sys.stdout):
+#             pass
+#
+#     elapsed = time.time() - start
+#     print(f"All {N_INSTANCES} instances done in {elapsed:.1f}s.")
+
+# simple and not parallel version for quick testing
 if __name__ == "__main__":
     start = time.time()
 
-    worker = partial(process_instance,
-                     n_runs=N_RUNS,
-                     T=T_MvM,
-                     U=U,
-                     K=K,
-                     results_dir=results_dir,
-                     plots_dir=plots_dir)
-
-    # top-level progress bar over instances
-    with Pool(processes=5) as pool:
-        for _ in tqdm(pool.imap_unordered(worker, range(N_INSTANCES)),
-                      total=N_INSTANCES,
-                      desc="Instances",
-                      position=0,
-                      file=sys.stdout):
-            pass
+    for inst_id in tqdm(range(1),
+                        desc="Instances",
+                        position=0,
+                        file=sys.stdout):
+        process_instance(inst_id,
+                         n_runs=1,
+                         T=T_MvM,
+                         U=U,
+                         K=K,
+                         results_dir=results_dir,
+                         plots_dir=plots_dir)
 
     elapsed = time.time() - start
     print(f"All {N_INSTANCES} instances done in {elapsed:.1f}s.")
